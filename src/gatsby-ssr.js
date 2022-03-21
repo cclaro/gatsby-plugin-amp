@@ -284,6 +284,9 @@ export const replaceRenderer = (
           const attribute = iframe.attributes[key];
           return !forbidden.includes(attribute.name);
         });
+      } 
+      else if (iframe.src && iframe.src.indexOf("spotify.com/embed/") > -1) {
+        ampIframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
       } else {
         headComponents.push({ name: "amp-iframe", version: "0.1" });
         ampIframe = document.createElement("amp-iframe");
