@@ -264,7 +264,7 @@ export const replaceRenderer = (
     iframes.forEach(iframe => {
       let ampIframe;
       let attributes;
-      if (iframe.src && iframe.src.indexOf("youtube.com/embed/") > -1) {
+      if (iframe.src && iframe.src.indexOf("youtube.com/embed/") > -1 && iframe.src.indexOf("spotify.com/embed/") > -1) {
         headComponents.push({ name: "amp-youtube", version: "0.1" });
         ampIframe = document.createElement("amp-youtube");
         const src = iframe.src.split("/");
@@ -277,6 +277,7 @@ export const replaceRenderer = (
         );
         placeholder.setAttribute("placeholder", "");
         placeholder.setAttribute("layout", "fill");
+        ampIframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
         ampIframe.appendChild(placeholder);
 
         const forbidden = ["allow", "allowfullscreen", "frameborder", "src"];
@@ -284,9 +285,6 @@ export const replaceRenderer = (
           const attribute = iframe.attributes[key];
           return !forbidden.includes(attribute.name);
         });
-      } 
-      else if (iframe.src && iframe.src.indexOf("spotify.com/embed/") > -1) {
-        ampIframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
       } else {
         headComponents.push({ name: "amp-iframe", version: "0.1" });
         ampIframe = document.createElement("amp-iframe");
